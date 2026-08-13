@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, SkipBack, SkipForward, Library, X, Heart } from 'lucide-react';
+import HeroPage from './HeroPage';
 
 const injectStyles = () => {
   const style = document.createElement('style');
@@ -836,7 +837,44 @@ const PlayerView = ({
   const handleHonk = useCallback(() => {
     if (isHonking) return;
     setIsHonking(true);
-    setTimeout(() => setIsHonking(false), 1400);
+    setTimeout(() => setIsHonking(false), 1800);
+
+    // Synthesize a long Indian-style bus/truck horn using Web Audio API
+    try {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+
+      // Two-tone bus horn: a low fundamental + a slightly higher harmonic
+      const playHornTone = (freq, startOffset, duration, gainPeak) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + startOffset);
+        // Slight downward pitch bend for a more realistic horn "wah"
+        osc.frequency.exponentialRampToValueAtTime(
+          freq * 0.92,
+          ctx.currentTime + startOffset + duration
+        );
+        // ADSR-ish envelope: quick attack, hold, gradual decay
+        gain.gain.setValueAtTime(0, ctx.currentTime + startOffset);
+        gain.gain.linearRampToValueAtTime(gainPeak, ctx.currentTime + startOffset + 0.04);
+        gain.gain.setValueAtTime(gainPeak, ctx.currentTime + startOffset + duration - 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + startOffset + duration);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + startOffset);
+        osc.stop(ctx.currentTime + startOffset + duration + 0.05);
+      };
+
+      // Long bus horn: two long blasts (~1.6s total) with characteristic dual-tone
+      playHornTone(165, 0, 0.8, 0.35);     // low E
+      playHornTone(220, 0, 0.8, 0.25);     // high A (a perfect fifth above)
+      playHornTone(165, 0.9, 0.7, 0.35);   // second blast
+      playHornTone(220, 0.9, 0.7, 0.25);
+    } catch (e) {
+      console.error('Horn playback failed:', e);
+    }
   }, [isHonking]);
 
   const visualizerHeights = [14, 24, 10, 30, 18, 36, 16, 27, 12, 32, 22, 40, 18, 29, 12, 34, 20, 38, 16, 27, 11, 31, 18, 35, 14, 24, 10, 30, 18, 38, 15, 27];
@@ -886,7 +924,8 @@ const PlayerView = ({
             <motion.button
               onClick={handleHonk}
               whileTap={{ scale: .96 }}
-              animate={isHonking ? { x: [-5, 5, -5, 5, 0] } : {}}
+              animate={isHonking ? { x: [-6, 6, -6, 6, -3, 3, 0] } : {}}
+              transition={isHonking ? { duration: 1.8 } : {}}
               className="absolute left-5 md:left-10 top-28 md:top-32 rounded-full border border-amber-300/60 bg-black/25 backdrop-blur-md px-5 py-2.5 text-amber-100 shadow-[0_0_25px_rgba(245,158,11,.16)] hover:bg-amber-300/10 transition"
             >
               <span className="mr-2">📯</span>
@@ -1226,7 +1265,7 @@ export default function App() {
 
       <AnimatePresence>
         {!hasStarted && (
-          <BusIntro key="intro" onComplete={handleStart} />
+          <HeroPage key="intro" onComplete={handleStart} />
         )}
       </AnimatePresence>
 
