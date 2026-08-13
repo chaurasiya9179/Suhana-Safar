@@ -186,6 +186,39 @@ const SONGS_DATA = [
     memoryImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1920", // College/Memories
     memoryCaption: "Some feelings didn't need names to be felt.",
     audioSource: "music/Udit_Narayan_Alka_Yagnik_-_Tu_Mere_Samne_(mp3.pm).mp3"
+  },
+  {
+    id: 11,
+    title: "Pyaar Se Pyar Hum",
+    movie: "RAAZ",
+    artist: "Udit Narayan, Alka Yagnik",
+    year: 2002,
+    artwork: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&q=80&w=400",
+    memoryImage: "https://images.unsplash.com/photo-1498843053639-170ff2122f35?auto=format&fit=crop&q=80&w=1920", // Old street/college
+    memoryCaption: "Some melodies echo the heart's deepest secrets.",
+    audioSource: "music/Pyaar Se Pyar Hum Raaz 320 Kbps.mp3"
+  },
+  {
+    id: 12,
+    title: "Aapke Pyaar Mein Hum",
+    movie: "RAAZ",
+    artist: "Udit Narayan, Alka Yagnik",
+    year: 2002,
+    artwork: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&q=80&w=400",
+    memoryImage: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&q=80&w=1920", // Rain on window
+    memoryCaption: "Love is the only language the heart truly understands.",
+    audioSource: "music/Aapke Pyaar Mein Hum Raaz 320 Kbps.mp3"
+  },
+  {
+    id: 13,
+    title: "Kitna Pyaara Hai",
+    movie: "RAAZ",
+    artist: "Udit Narayan, Alka Yagnik",
+    year: 2002,
+    artwork: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&q=80&w=400",
+    memoryImage: "https://images.unsplash.com/photo-1474487548417-781cb71495f3?auto=format&fit=crop&q=80&w=1920", // Train/Movement
+    memoryCaption: "Some songs carry the fragrance of timeless love.",
+    audioSource: "music/Kitna Pyaara Hai Raaz 320 Kbps.mp3"
   }
 ];
 
